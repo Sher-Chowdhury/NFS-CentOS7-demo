@@ -18,36 +18,36 @@ end
 
 
 Vagrant.configure(2) do |config|
-  config.vm.define "webserver-box" do |webserver_config|
-    webserver_config.vm.box = "bento/centos-7.4"
-    webserver_config.vm.hostname = "webserver.local"
+  config.vm.define "nfs_storage-box" do |nfs_storage_config|
+    nfs_storage_config.vm.box = "bento/centos-7.4"
+    nfs_storage_config.vm.hostname = "nfs_storage.local"
     # https://www.vagrantup.com/docs/virtualbox/networking.html
-    webserver_config.vm.network "private_network", ip: "10.0.5.10", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+    nfs_storage_config.vm.network "private_network", ip: "10.0.6.10", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
-    webserver_config.vm.provider "virtualbox" do |vb|
+    nfs_storage_config.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "1024"
       vb.cpus = 2
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.name = "centos7_webserver"
+      vb.name = "centos7_nfs_storage"
     end
 
-    webserver_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
+    nfs_storage_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
   end
 
 
-  config.vm.define "box1" do |box1_config|
-    box1_config.vm.box = "bento/centos-7.4"
-    box1_config.vm.hostname = "box1.local"
-    box1_config.vm.network "private_network", ip: "10.0.5.11", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+  config.vm.define "nfs_client" do |nfs_client_config|
+    nfs_client_config.vm.box = "bento/centos-7.4"
+    nfs_client_config.vm.hostname = "nfs_client.local"
+    nfs_client_config.vm.network "private_network", ip: "10.0.6.11", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
-    box1_config.vm.provider "virtualbox" do |vb|
+    nfs_client_config.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "1024"
       vb.cpus = 2
-      vb.name = "centos7_box1"
+      vb.name = "centos7_nfs_client"
     end
 
-    box1_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
+    nfs_client_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
   end
 end
