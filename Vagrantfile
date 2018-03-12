@@ -18,9 +18,9 @@ end
 
 
 Vagrant.configure(2) do |config|
-  config.vm.define "nfs_storage-box" do |nfs_storage_config|
+  config.vm.define "nfs_storage" do |nfs_storage_config|
     nfs_storage_config.vm.box = "bento/centos-7.4"
-    nfs_storage_config.vm.hostname = "nfs_storage.local"
+    nfs_storage_config.vm.hostname = "nfs-storage.local"
     # https://www.vagrantup.com/docs/virtualbox/networking.html
     nfs_storage_config.vm.network "private_network", ip: "10.0.6.10", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
@@ -33,12 +33,13 @@ Vagrant.configure(2) do |config|
     end
 
     nfs_storage_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
+    nfs_storage_config.vm.provision "shell", path: "scripts/nfs_server_setup.sh", privileged: true
   end
 
 
   config.vm.define "nfs_client" do |nfs_client_config|
     nfs_client_config.vm.box = "bento/centos-7.4"
-    nfs_client_config.vm.hostname = "nfs_client.local"
+    nfs_client_config.vm.hostname = "nfs-client.local"
     nfs_client_config.vm.network "private_network", ip: "10.0.6.11", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
     nfs_client_config.vm.provider "virtualbox" do |vb|
