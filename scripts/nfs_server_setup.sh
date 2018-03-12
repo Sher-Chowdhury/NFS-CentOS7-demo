@@ -35,6 +35,12 @@ mkdir -p /nfs/export_ro
 mkdir -p /nfs/export_rw
 
 
+semanage fcontext -a -t public_content_rw_t  "/nfs/export_ro(/.*)?"
+restorecon -R /nfs/export_ro
+
+semanage fcontext -a -t public_content_rw_t  "/nfs/export_rw(/.*)?"
+restorecon -R /nfs/export_rw
+
 # Next we need to add entries to /etc/exports, which is an empty file by default:
 # do 'man exports' to see exmaple confis 
 echo '/nfs/export_ro  *(sync)' > /etc/exports
