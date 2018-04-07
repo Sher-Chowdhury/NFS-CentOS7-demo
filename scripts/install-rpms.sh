@@ -13,6 +13,7 @@ yum install -y bash-completion || exit 1
 yum install -y man-pages
 yum install -y bash-completion-extras || exit 1
 yum install -y mtr || exit 1
+yum install -y mlocate || exit 1
 
 
 # Do a few more stuff. 
@@ -24,3 +25,5 @@ systemctl start firewalld
 
 mandb
 updatedb
+
+exit 0

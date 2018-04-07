@@ -50,5 +50,6 @@ Vagrant.configure(2) do |config|
     end
 
     nfs_client_config.vm.provision "shell", path: "scripts/install-rpms.sh", privileged: true
+    nfs_client_config.vm.provision "shell", path: "scripts/nfs_client_setup.sh", privileged: true
   end
 end
