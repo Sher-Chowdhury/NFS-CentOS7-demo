@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# exit 0
+#exit 0
 set -ex
 
 echo '##########################################################################'
@@ -35,11 +35,8 @@ mkdir -p /nfs/export_ro
 mkdir -p /nfs/export_rw
 
 
-semanage fcontext -a -t public_content_rw_t  "/nfs/export_ro(/.*)?"
-restorecon -Rv /nfs/export_ro
-
-semanage fcontext -a -t public_content_rw_t  "/nfs/export_rw(/.*)?"
-restorecon -Rv /nfs/export_rw
+semanage fcontext -a -t public_content_rw_t  "/nfs(/.*)?"
+restorecon -Rv /nfs
 
 # Next we need to add entries to /etc/exports, which is an empty file by default:
 # do 'man exports' to see exmaple confis 
